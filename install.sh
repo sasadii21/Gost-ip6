@@ -188,7 +188,7 @@ EOL
         exec_start_command="ExecStart=/usr/local/bin/gost"
         for ((i = file_index * max_ports_per_file; i < (file_index + 1) * max_ports_per_file && i < port_count; i++)); do
             port="${port_array[i]}"
-            exec_start_command+=" -L=$protocol://:$port/[$destination_ip]:$port"
+            exec_start_command+=" -L=$protocol://:$port/$destination_ip:$port"
         done
 
         # Append the ExecStart command to the current file
@@ -324,6 +324,9 @@ EOL
 
     # Complete the systemd service file
     cat <<EOL | sudo tee -a "/usr/lib/systemd/system/gost_$destination_ip.service" > /dev/null
+Restart=always
+RestartSec=3
+LimitNOFILE=51200
 
 [Install]
 WantedBy=multi-user.target
