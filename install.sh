@@ -196,6 +196,9 @@ EOL
 
         # Complete the current systemd service file
         cat <<EOL | sudo tee -a "/usr/lib/systemd/system/gost_$file_index.service" > /dev/null
+Restart=always
+RestartSec=3
+LimitNOFILE=51200
 
 [Install]
 WantedBy=multi-user.target
